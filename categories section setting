@@ -1,0 +1,98 @@
+<div class="nws_category_sec">
+        <div class="container">
+          <div class="head_info">
+              <h2 class="amr_head_title">{{ section.settings.category_head }}</h2>
+              <div class="amr_desc">{{ section.settings.category_desc }}</div>
+          </div>
+          <div class="nws_category_row cust_top_pad">
+            {% for block in section.blocks %}
+                   {% assign selected_category = block.settings.prod_category %}
+                   {% if selected_category != blank %}
+                     {% assign cat_url = selected_category.url %}
+                   {% else %}
+                     {% assign cat_url = block.settings.url_link %}
+                   {% endif %}
+                   <a href="{{ cat_url }}">
+                      <div class="nws_category_grid">
+                          {% if block.settings.category_img !=blank %}
+                            <img loading="lazy" class="category_img" src="{{ block.settings.category_img | img_url: 'master' }}"/>
+                            {% else %}
+                            <img loading="lazy" class="category_img" src="{{ selected_category.featured_image | img_url: 'master' }}"/>
+                          {% endif %}
+                          <div class="nws_product_content nws_category_content">
+                            {% if block.settings.category_name != blank %}
+                              <h2 class="amr_product_head">{{ block.settings.category_name }}</h2>
+                            {% else %}
+                              <h2 class="amr_product_head">{{ selected_category.title }}</h2>
+                            {% endif %}
+                            {% if block.settings.category_details != blank %}
+                              <div class="amr_desc amr_category_desc">{{ block.settings.category_details }}</div>
+                            {% else %}
+                              <div class="amr_desc amr_category_desc">{{ selected_category.description  }}</div>
+                            {% endif %}
+      
+                        </div>
+                    </div> 
+                </a>     
+          {% endfor %}
+        </div>  
+      </div>
+     </div> 
+
+
+{% schema %}
+  {
+    "name": "Nws Category",
+    "settings": [
+        {
+            "type": "text",
+            "id": "category_head",
+            "label":"Heading"
+          },
+          {
+            "type": "textarea",
+            "id": "category_desc",
+            "label":"Description"
+          }
+    ],
+     "blocks": [
+    {
+      "type": "text",
+      "name": "Product Categories",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "prod_category",
+          "label":"Select Category"
+        },
+        {
+          "type": "url",
+          "id": "url_link",
+          "label":"Category Link"
+        },
+        {
+          "type": "image_picker",
+          "id": "category_img",
+          "label":"Category Image"
+        },
+        {
+          "type": "text",
+          "id": "category_name",
+          "label":"Category Name"
+        },
+        {
+          "type": "richtext",
+          "id": "category_details",
+          "label":"Category Details"
+        }
+      ]
+    }
+  ],
+    "presets": [
+      {
+        "name": "Nws Category",
+        "category": "Custom"
+      }
+    ]
+  }
+{% endschema %}
